@@ -1,41 +1,44 @@
 <?php
 
-
-if(!isset($_GET['name']) || !file_exists('./tests/' . $_GET['name']))
+if(!isset($_GET['name']) || !file_exists('./tests/' . $_GET['name'])){
     die('Invalid test name');
+    header("HTTP/1.0 404 Not Found");
+}
+
 else {
-    $tess = file_get_contents('../forms_pictures/tests/' . $_GET['name']);
+    $tess = file_get_contents('./tests/' . $_GET['name']);
     $test = json_decode($tess, true);
 
     if (!empty($_POST)) {
-        if (!empty($_POST['fio'])) {
-            $answer0 = $_POST['answer0'];
-            $answer1 = $_POST['answer1'];
-            $answer2 = $_POST['answer2'];
-            $answer3 = $_POST['answer3'];
 
-            $result = 0;
-            if ($answer0 == $test[1]['true']) {
-                $result += 25;
+            if (!empty($_POST['fio'])) {
+                $answer0 = $_POST['answer0'];
+                $answer1 = $_POST['answer1'];
+                $answer2 = $_POST['answer2'];
+                $answer3 = $_POST['answer3'];
+
+                $result = 0;
+                if ($answer0 == $test[1]['true']) {
+                    $result += 25;
+                }
+                if ($answer1 == $test[2]['true']) {
+                    $result += 25;
+                }
+                if ($answer2 == $test[3]['true']) {
+                    $result += 25;
+                }
+                if ($answer3 == $test[4]['true']) {
+                    $result += 25;
+                }
+                session_start();
+                $_SESSION['fio'] = $_POST['fio'];
+                $_SESSION['res'] = $result;
+                echo "<img src=\"pic.php\" />";
+                die;
+            } else {
+                echo "Введите ФИО!";
             }
-            if ($answer1 == $test[2]['true']) {
-                $result += 25;
-            }
-            if ($answer2 == $test[3]['true']) {
-                $result += 25;
-            }
-            if ($answer3 == $test[4]['true']) {
-                $result += 25;
-            }
-            session_start();
-            $_SESSION['fio'] = $_POST['fio'];
-            $_SESSION['res'] = $result;
-            header('Location: http://university.netology.ru/u/mtipikina/forms_pictures/sertificate.php');
         }
-        else{
-            echo "Введите ФИО!";
-        }
-    }
 }
 
 
