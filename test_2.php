@@ -1,8 +1,9 @@
 <?php
 
 if(!isset($_GET['name']) || !file_exists('./tests/' . $_GET['name'])){
+    //header ("HTTP/1.1 404 Not Found");
+    header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
     die('Invalid test name');
-    header("HTTP/1.0 404 Not Found");
 }
 
 else {
